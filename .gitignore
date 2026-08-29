@@ -1,0 +1,22 @@
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+backend/.pytest_cache/
+*.db
+node_modules/
+dist/
+frontend/dist/
+
+# Secrets / local config. These patterns have no slash, so they match at any
+# depth: root .env, backend/.env and frontend/.env are all covered.
+.env
+.env.*
+!.env.example
+
+# Internal authoring prompts and agent memory — never published.
+# Every file here is a prompt ("Read: - PROJECT_SPEC.md ...") or working notes.
+# Public documentation lives in documentation/ and README.md, both tracked.
+docs/
