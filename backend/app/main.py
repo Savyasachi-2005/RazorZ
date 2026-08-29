@@ -73,7 +73,13 @@ class LoginRequest(BaseModel):
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
-    create_db_and_tables()
+    try:
+        create_db_and_tables()
+    except Exception as exc:
+        # Database initialization may fail in development or on first deploy.
+        # The app can still start; /health will report the database status.
+        print(f"Warning: Database initialization failed: {exc}")
+    
     try:
         bootstrap_admin()
     except Exception:
