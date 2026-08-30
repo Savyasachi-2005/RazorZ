@@ -1,7 +1,7 @@
 import { defineConfig, type ProxyOptions } from "vite";
 import react from "@vitejs/plugin-react";
 
-const BACKEND = "http://127.0.0.1:8000";
+const BACKEND = process.env.VITE_BACKEND_URL || "http://127.0.0.1:8000";
 
 // Several API prefixes are also client-side routes (/exceptions, /audit,
 // /reconciliation, /copilot, /sources). A hard refresh on one of those is a

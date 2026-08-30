@@ -201,6 +201,9 @@ export class UnauthorizedError extends Error {
   }
 }
 
+// Backend URL: use env var in production, or relative path for dev/same-origin
+const BACKEND_URL = (import.meta.env.VITE_BACKEND_URL ?? "").trim();
+
 let onUnauthorized: (() => void) | null = null;
 
 export function setUnauthorizedHandler(handler: (() => void) | null) {
@@ -209,7 +212,8 @@ export function setUnauthorizedHandler(handler: (() => void) | null) {
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const token = session.get();
-  const response = await fetch(path, {
+  const url = BACKEND_URL ? `${BACKEND_URL}${path}` : path;
+  const response = await fetch(url, {
     ...init,
     headers: {
       "Content-Type": "application/json",

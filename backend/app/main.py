@@ -78,7 +78,10 @@ async def lifespan(_: FastAPI):
     except Exception as exc:
         # Database initialization may fail in development or on first deploy.
         # The app can still start; /health will report the database status.
-        print(f"Warning: Database initialization failed: {exc}")
+        import traceback
+        print(f"⚠️  Database initialization failed:")
+        print(f"   Error: {exc.__class__.__name__}: {exc}")
+        print(f"   Traceback: {traceback.format_exc()}")
     
     try:
         bootstrap_admin()
