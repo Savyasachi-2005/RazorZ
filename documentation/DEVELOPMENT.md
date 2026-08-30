@@ -196,18 +196,7 @@ IPv6 blip breaks startup. Retrying usually works; the pooler host on port 6543 i
 exceptions list spans all runs and all statuses. See
 [DATABASE.md](DATABASE.md#the-exception-scoping-gap).
 
-## Known limitations
 
-Would need attention before a real deployment:
-
-- **No role-based authorization** — any signed-in user can resolve or reject exceptions
-- **No rate limiting** — `/auth/login` is brute-forcible; `/copilot/ask` and the webhook are unthrottled
-- **Session tokens in `sessionStorage`** — XSS-exposed; an httpOnly cookie plus CSRF is stronger
-- **No migration tool** — schema is created by `create_all` plus a best-effort `ADD COLUMN` pass;
-  renames, type changes and drops are unsupported
-- **Exception counts are not run-scoped** — the `exceptions` table has no `run_id`
-- **The polling Razorpay sync writes no audit event**, and a large run's per-decision rows crowd the
-  first page of the audit trail
 - **CI does not typecheck the frontend**
 - **Deployment configuration does not exist yet** — no Dockerfile, no host config
 - **`AMBIGUOUS_MATCH` vs `PAYMENT_MISSING` classification gap** at scale, left unfixed on purpose to
