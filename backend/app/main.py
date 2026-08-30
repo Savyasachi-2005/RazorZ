@@ -71,6 +71,12 @@ class LoginRequest(BaseModel):
     password: str = Field(..., min_length=1, max_length=200)
 
 
+def _cors_origins() -> list[str]:
+    raw = settings.frontend_origin or ""
+    origins = [origin.strip() for origin in raw.split(",") if origin.strip()]
+    return origins or ["http://localhost:5173"]
+
+
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     try:
@@ -101,7 +107,7 @@ app = FastAPI(
 )
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.frontend_origin],
+    allow_origins=_cors_origins(),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

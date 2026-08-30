@@ -7,7 +7,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from app.config import settings
-from app.main import app
+from app.main import _cors_origins, app
 from app.security import PUBLIC_PATHS, auth_enabled, configured_keys, key_is_valid, require_api_key
 from app.integrations.razorpay.webhook import compute_signature
 
@@ -231,6 +231,11 @@ def test_api_key_cannot_substitute_for_a_missing_webhook_signature(auth_on):
 
 
 # --- CORS + development behavior ----------------------------------------
+
+
+def test_cors_origin_parser_accepts_multiple_values():
+    with _settings_override(frontend_origin="https://one.example.com, https://two.example.com"):
+        assert _cors_origins() == ["https://one.example.com", "https://two.example.com"]
 
 
 def test_cors_preflight_still_works_with_auth_enabled(auth_on):
